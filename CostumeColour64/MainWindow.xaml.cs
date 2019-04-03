@@ -24,6 +24,12 @@ namespace CostumeColour64
     /// </summary>
     public partial class MainWindow : Window
     {
+        public string defaultColours = "{\"bytes\":[0,0,127,0,0,0,127,0,0,0,255,0,0,0,255,0,40,40,40,0,0,0,0,0,127,0,0,0,127,0,0,0,255,0,0,0,255,0,0,0,40,40,40,0,0,0,0,0,127,127,127,0,127,127,127,0,255,255,255,0,255,255,255,0,40,40,40,0,0,0,0,0,57,14,7,0,57,14,7,0,114,28,14,0,114,28,14,0,40,40,40,0,0,0,0,0,127,96,60,0,127,96,60,0,254,193,121,0,254,193,121,0,40,40,40,0,0,0,0,0,57,3,0,0,57,3,0,0,115,6,0,0,115,6,0,0,40,40,40,0,0,0,0]}";
+        
+        private long key = 0;
+        private bool overrideOffset = false;
+        private long overrideValue = 0;
+
         private int red   = 0;
         private int green = 0;
         private int blue  = 0;
@@ -37,24 +43,52 @@ namespace CostumeColour64
         public MainWindow()
         {
             InitializeComponent();
-            BrowseForFile();
+            bool success = BrowseForFile();
+
+            if (!success) Application.Current.Shutdown();
         }
 
         void LoadHex()
         {
             FileStream fs = new FileStream(fileDirectory, FileMode.Open);
-
-            long offset = 8534896;
-            long key = offset - (offset % 16);
-
-
             BinaryReader brFile = new BinaryReader(fs);
-            fs.Position = key;
+
+            long offset = 8534896 - 12; //Start from 12 behind incase the ROM is mapped differently
+            if (overrideOffset)
+            {
+                offset = overrideValue;
+                key = offset;
+            }
+            else
+            {
+                fs.Position = offset;
+                while (brFile.PeekChar() == 01)
+                {
+                    brFile.ReadByte();
+                }
+                key = fs.Position;
+            }
+
             offsetByte = brFile.ReadBytes(143).ToList();
-            
+
             brFile.Close();
             fs.Close();
         }
+        //void LoadHex()
+        //{
+        //    FileStream fs = new FileStream(fileDirectory, FileMode.Open);
+
+        //    long offset = 8534896;
+        //    long key = offset - (offset % 16);
+
+
+        //    BinaryReader brFile = new BinaryReader(fs);
+        //    fs.Position = key;
+        //    offsetByte = brFile.ReadBytes(143).ToList();
+
+        //    brFile.Close();
+        //    fs.Close();
+        //}
 
         void DiscardChangesToColours()
         {
@@ -70,14 +104,10 @@ namespace CostumeColour64
 
             FileStream fs = new FileStream(fileDirectory, FileMode.Open);
 
-            long offset = 8534896;
-
             for (int i = 0; i < mario64Colors.Count; i++)
             {
-
-                long finalOffset = offset + mario64Colors[i].hexIndex;
-                long key = finalOffset;
-                fs.Position = key;
+                long finalOffset = key + mario64Colors[i].hexIndex;
+                fs.Position = finalOffset;
                 byte r = (byte) mario64Colors[i].red;
 
                 fs.WriteByte(r);
@@ -202,7 +232,7 @@ namespace CostumeColour64
             BrowseForFile();
         }
 
-        void BrowseForFile()
+        bool BrowseForFile()
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Multiselect = false;
@@ -218,7 +248,10 @@ namespace CostumeColour64
                 AddColorsToList();
 
                 SelectColor(0, false);
+                return true;
             }
+
+            return false;
         }
 
         private void Discard_Click(object sender, RoutedEventArgs e)
@@ -226,7 +259,7 @@ namespace CostumeColour64
             DiscardChangesToColours();
         }
 
-        private void SaveCollection_Click(object sender, RoutedEventArgs e)
+        private void SaveCollection()
         {
             SaveHex();
             LoadHex();
@@ -247,7 +280,7 @@ namespace CostumeColour64
             }
         }
 
-        private void LoadCollection_Click(object sender, RoutedEventArgs e)
+        private void LoadCollection()
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Multiselect = false;
@@ -266,6 +299,67 @@ namespace CostumeColour64
                 ClearColors();
                 AddColorsToList();
             }
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------------------
+        //-- MENU -----------------------------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------------------------------------
+
+        private void menu_LoadROM_Click(object sender, RoutedEventArgs e)
+        {
+            BrowseForFile();
+        }
+
+        private void menu_SaveROM_Click(object sender, RoutedEventArgs e)
+        {
+            if (File.Exists(fileDirectory)) 
+            {
+                SaveHex();
+                MessageBox.Show("ROM saved!", "Attention", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+            }
+        }
+
+        private void menu_LaunchROM_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void menu_ImportGameshark_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void menu_LoadCollection_Click(object sender, RoutedEventArgs e)
+        {
+            LoadCollection();
+        }
+
+        private void menu_SaveCollection_Click(object sender, RoutedEventArgs e)
+        {
+            SaveCollection();
+        }
+
+        private void menu_LoadDefaultValues_Click(object sender, RoutedEventArgs e)
+        {
+            Collection collection = JsonConvert.DeserializeObject<Collection>(defaultColours);
+            offsetByte = collection.bytes;
+
+            ClearColors();
+            AddColorsToList();
+        }
+
+        private void menu_DiscardAllChanges_Click(object sender, RoutedEventArgs e)
+        {
+            LoadHex();
+            ClearColors();
+            AddColorsToList();
+
+            SelectColor(0, false);
+        }
+
+        private void menu_OverrideOffset_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

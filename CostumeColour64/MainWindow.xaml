@@ -5,8 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CostumeColour64"
         mc:Ignorable="d"
-        Title="Costume Colour 64 v0.2.0" Height="434" Width="480" ResizeMode="NoResize">
+        Title="Costume Colour 64 v0.2.0" Height="471" Width="480" ResizeMode="NoResize">
     <Grid>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="File" Height="20">
+                    <MenuItem x:Name="menu_LoadROM" Header="Load ROM..." Click="menu_LoadROM_Click"></MenuItem>
+                    <MenuItem x:Name="menu_SaveROM" Header="Save ROM" Click="menu_SaveROM_Click"></MenuItem>
+                    <Separator />
+                    <MenuItem x:Name="menu_LaunchROM" Header="Launch ROM" IsEnabled="False" Click="menu_LaunchROM_Click"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Collections" Height="20">
+                    <MenuItem x:Name="menu_ImportGameshark" Header="Import Gameshark..." IsEnabled="False" Click="menu_ImportGameshark_Click"></MenuItem>
+                    <MenuItem x:Name="menu_LoadCollection" Header="Load Collection..." Click="menu_LoadCollection_Click"></MenuItem>
+                    <MenuItem x:Name="menu_SaveCollection" Header="Save Collection..." Click="menu_SaveCollection_Click"></MenuItem>
+                    <Separator />
+                    <MenuItem x:Name="menu_LoadDefaultValues" Header="Load Default Values" Click="menu_LoadDefaultValues_Click"></MenuItem>
+                    <MenuItem x:Name="menu_DiscardAllChanges" Header="Discard all Changes" Click="menu_DiscardAllChanges_Click"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Advanced" Height="20">
+                    <MenuItem x:Name="menu_OverrideOffset" Header="Override Offset" IsEnabled="False" Click="menu_OverrideOffset_Click"></MenuItem>
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+
         <Slider x:Name="RedValue" Margin="68,0,80,146" Maximum="255" SmallChange="1" ValueChanged="RedValue_ValueChanged" Height="18" VerticalAlignment="Bottom"/>
         <Slider x:Name="GreenValue" Margin="68,0,80,97" Maximum="255" SmallChange="1" ValueChanged="GreenValue_ValueChanged" Height="18" VerticalAlignment="Bottom"/>
         <Slider x:Name="BlueValue" Margin="68,0,80,46" Maximum="255" SmallChange="1" ValueChanged="BlueValue_ValueChanged" Height="18" VerticalAlignment="Bottom"/>
@@ -16,16 +38,12 @@
 
         <Rectangle x:Name="ColorPreview" Fill="#888888" Margin="10,0,174,10" Height="23" VerticalAlignment="Bottom"/>
 
-        <WrapPanel x:Name="ColorPanel" Orientation="Horizontal" Margin="10,66,0,38" HorizontalAlignment="Left" Width="158">
-        </WrapPanel>
-        <Button x:Name="Save" Content="Save to ROM" Margin="0,38,10,0" Click="Save_Click" Height="23" VerticalAlignment="Top" HorizontalAlignment="Right" Width="109"/>
-        <TextBox x:Name="SelectedROM" IsReadOnly="True" Height="23" Margin="10,10,89,0" Text="" VerticalAlignment="Top"/>
-        <Button x:Name="Browse" Content="Browse" Margin="0,10,10,0" VerticalAlignment="Top" Height="23" HorizontalAlignment="Right" Width="74" Click="Browse_Click"/>
+        <WrapPanel x:Name="ColorPanel" Orientation="Horizontal" Margin="150,53,0,173" HorizontalAlignment="Left" Width="158" />
+        <TextBox x:Name="SelectedROM" IsReadOnly="True" Height="23" Margin="10,25,11,0" Text="" VerticalAlignment="Top"/>
         <Label Content="R" HorizontalAlignment="Left" Margin="46,0,0,142" Height="26" VerticalAlignment="Bottom"/>
         <Label Content="G" HorizontalAlignment="Left" Margin="46,0,0,93" VerticalAlignment="Bottom"/>
         <Label Content="B" HorizontalAlignment="Left" Margin="46,0,0,42" VerticalAlignment="Bottom"/>
         <Button x:Name="Discard" Content="Discard Changes to Colour" Margin="0,0,10,10" Click="Discard_Click" HorizontalAlignment="Right" Width="159" Height="23" VerticalAlignment="Bottom"/>
-        <Button x:Name="SaveCollection" Content="Save" Margin="10,38,0,0" Click="SaveCollection_Click" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="76"/>
-        <Button x:Name="LoadCollection" Content="Load" Margin="92,38,0,0" Click="LoadCollection_Click" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="76"/>
+
     </Grid>
 </Window>
