@@ -37,6 +37,7 @@ namespace CostumeColour64
         public MainWindow()
         {
             InitializeComponent();
+            BrowseForFile();
         }
 
         void LoadHex()
@@ -197,6 +198,11 @@ namespace CostumeColour64
         }
 
         private void Browse_Click(object sender, RoutedEventArgs e)
+        {
+            BrowseForFile();
+        }
+
+        void BrowseForFile()
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Multiselect = false;
