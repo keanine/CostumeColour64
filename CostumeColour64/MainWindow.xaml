@@ -5,25 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CostumeColour64"
         mc:Ignorable="d"
-        Title="Costume Colour 64 v0.1" Height="423" Width="480" ResizeMode="NoResize">
+        Title="Costume Colour 64 v0.2.0" Height="434" Width="480" ResizeMode="NoResize">
     <Grid>
-        <Slider x:Name="RedValue" Margin="68,0,80,157" Maximum="255" SmallChange="1" ValueChanged="RedValue_ValueChanged" Height="18" VerticalAlignment="Bottom"/>
-        <Slider x:Name="GreenValue" Margin="68,0,80,108" Maximum="255" SmallChange="1" ValueChanged="GreenValue_ValueChanged" Height="18" VerticalAlignment="Bottom"/>
-        <Slider x:Name="BlueValue" Margin="68,0,80,57" Maximum="255" SmallChange="1" ValueChanged="BlueValue_ValueChanged" Height="18" VerticalAlignment="Bottom"/>
-        <Label x:Name="RedText" Content="255" Margin="0,0,20,154" FontSize="10" Height="24" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="55"/>
-        <Label x:Name="GreenText" Content="255" Margin="0,0,20,105" FontSize="10" HorizontalAlignment="Right" Width="55" Height="24" VerticalAlignment="Bottom"/>
-        <Label x:Name="BlueText" Content="255" Margin="0,0,20,54" FontSize="10" HorizontalAlignment="Right" Width="55" Height="24" VerticalAlignment="Bottom"/>
+        <Slider x:Name="RedValue" Margin="68,0,80,146" Maximum="255" SmallChange="1" ValueChanged="RedValue_ValueChanged" Height="18" VerticalAlignment="Bottom"/>
+        <Slider x:Name="GreenValue" Margin="68,0,80,97" Maximum="255" SmallChange="1" ValueChanged="GreenValue_ValueChanged" Height="18" VerticalAlignment="Bottom"/>
+        <Slider x:Name="BlueValue" Margin="68,0,80,46" Maximum="255" SmallChange="1" ValueChanged="BlueValue_ValueChanged" Height="18" VerticalAlignment="Bottom"/>
+        <Label x:Name="RedText" Content="255" Margin="0,0,20,143" FontSize="10" Height="24" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="55"/>
+        <Label x:Name="GreenText" Content="255" Margin="0,0,20,94" FontSize="10" HorizontalAlignment="Right" Width="55" Height="24" VerticalAlignment="Bottom"/>
+        <Label x:Name="BlueText" Content="255" Margin="0,0,20,43" FontSize="10" HorizontalAlignment="Right" Width="55" Height="24" VerticalAlignment="Bottom"/>
 
-        <Rectangle x:Name="ColorPreview" Fill="#888888" Margin="68,0,80,10" Height="30" VerticalAlignment="Bottom"/>
+        <Rectangle x:Name="ColorPreview" Fill="#888888" Margin="10,0,174,10" Height="23" VerticalAlignment="Bottom"/>
 
-        <WrapPanel x:Name="ColorPanel" Orientation="Horizontal" Margin="0,38,0,22" HorizontalAlignment="Left" Width="181">
+        <WrapPanel x:Name="ColorPanel" Orientation="Horizontal" Margin="10,66,0,38" HorizontalAlignment="Left" Width="158">
         </WrapPanel>
         <Button x:Name="Save" Content="Save to ROM" Margin="0,38,10,0" Click="Save_Click" Height="23" VerticalAlignment="Top" HorizontalAlignment="Right" Width="109"/>
         <TextBox x:Name="SelectedROM" IsReadOnly="True" Height="23" Margin="10,10,89,0" Text="" VerticalAlignment="Top"/>
         <Button x:Name="Browse" Content="Browse" Margin="0,10,10,0" VerticalAlignment="Top" Height="23" HorizontalAlignment="Right" Width="74" Click="Browse_Click"/>
-        <Label Content="R" HorizontalAlignment="Left" Margin="46,215,0,0" VerticalAlignment="Top"/>
-        <Label Content="G" HorizontalAlignment="Left" Margin="46,264,0,0" VerticalAlignment="Top"/>
-        <Label Content="B" HorizontalAlignment="Left" Margin="46,315,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="Discard" Content="Discard Changes to Colour" Margin="0,179,20,0" Click="Discard_OnClickscard_Click" Height="23" VerticalAlignment="Top" HorizontalAlignment="Right" Width="159"/>
+        <Label Content="R" HorizontalAlignment="Left" Margin="46,0,0,142" Height="26" VerticalAlignment="Bottom"/>
+        <Label Content="G" HorizontalAlignment="Left" Margin="46,0,0,93" VerticalAlignment="Bottom"/>
+        <Label Content="B" HorizontalAlignment="Left" Margin="46,0,0,42" VerticalAlignment="Bottom"/>
+        <Button x:Name="Discard" Content="Discard Changes to Colour" Margin="0,0,10,10" Click="Discard_Click" HorizontalAlignment="Right" Width="159" Height="23" VerticalAlignment="Bottom"/>
+        <Button x:Name="SaveCollection" Content="Save" Margin="10,38,0,0" Click="SaveCollection_Click" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="76"/>
+        <Button x:Name="LoadCollection" Content="Load" Margin="92,38,0,0" Click="LoadCollection_Click" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="76"/>
     </Grid>
 </Window>

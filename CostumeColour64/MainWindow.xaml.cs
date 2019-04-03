@@ -15,6 +15,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Media;
 using Microsoft.Win32;
+using Newtonsoft.Json;
 
 namespace CostumeColour64
 {
@@ -214,39 +215,51 @@ namespace CostumeColour64
             }
         }
 
-        private void Discard_OnClickscard_Click(object sender, RoutedEventArgs e)
+        private void Discard_Click(object sender, RoutedEventArgs e)
         {
             DiscardChangesToColours();
         }
-    }
 
-    public class Mario64Color
-    {
-        public int red;
-        public int green;
-        public int blue;
-        public int hexIndex;
-        public Button button;
-
-        public Mario64Color(int hexI, byte r, byte g, byte b, Button but)
+        private void SaveCollection_Click(object sender, RoutedEventArgs e)
         {
-            
-            red = r;
-            green = g;
-            blue = b;
-            hexIndex = hexI;
-            button = but;
+            SaveHex();
+            LoadHex();
 
-            Color c = Color.FromArgb(255, (byte)red, (byte)green, (byte)blue);
-            SolidColorBrush brush = new SolidColorBrush(c);
-            button.Background = brush;
+            Collection collection = new Collection();
+            collection.bytes = offsetByte;
+            string json = JsonConvert.SerializeObject(collection, Formatting.None);
+
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "CC64 Collection (*.cc64)|*.cc64";
+            dialog.Title = "Save Costume Colour 64 Collection";
+
+            if (dialog.ShowDialog() == true)
+            {
+                StreamWriter writer = new StreamWriter(dialog.FileName);
+                writer.Write(json);
+                writer.Close();
+            }
         }
 
-        public void SetColor(int r, int g, int b)
+        private void LoadCollection_Click(object sender, RoutedEventArgs e)
         {
-            red = r;
-            green = g;
-            blue = b;
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = false;
+            dialog.Filter = "CC64 Collection (*.cc64)|*.cc64";
+            dialog.Title = "Open Costume Colour 64 Collection";
+
+            if (dialog.ShowDialog() == true)
+            {
+                StreamReader reader = new StreamReader(dialog.FileName);
+                string json = reader.ReadToEnd();
+                reader.Close();
+
+                Collection collection = JsonConvert.DeserializeObject<Collection>(json);
+                offsetByte = collection.bytes;
+
+                ClearColors();
+                AddColorsToList();
+            }
         }
     }
 }
