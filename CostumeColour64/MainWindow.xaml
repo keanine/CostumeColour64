@@ -37,14 +37,15 @@
         <Label x:Name="GreenText" Content="255" Margin="0,0,20,94" FontSize="10" HorizontalAlignment="Right" Width="55" Height="24" VerticalAlignment="Bottom"/>
         <Label x:Name="BlueText" Content="255" Margin="0,0,20,43" FontSize="10" HorizontalAlignment="Right" Width="55" Height="24" VerticalAlignment="Bottom"/>
 
-        <Rectangle x:Name="ColorPreview" Fill="#888888" Margin="10,0,174,10" Height="23" VerticalAlignment="Bottom"/>
-
         <WrapPanel x:Name="ColorPanel" Orientation="Horizontal" Margin="150,53,0,173" HorizontalAlignment="Left" Width="158" />
         <TextBox x:Name="SelectedROM" IsReadOnly="True" Height="23" Margin="10,25,11,0" Text="" VerticalAlignment="Top"/>
         <Label Content="R" HorizontalAlignment="Left" Margin="46,0,0,142" Height="26" VerticalAlignment="Bottom"/>
         <Label Content="G" HorizontalAlignment="Left" Margin="46,0,0,93" VerticalAlignment="Bottom"/>
         <Label Content="B" HorizontalAlignment="Left" Margin="46,0,0,42" VerticalAlignment="Bottom"/>
         <Button x:Name="Discard" Content="Discard Changes to Colour" Margin="0,0,10,10" Click="Discard_Click" HorizontalAlignment="Right" Width="159" Height="23" VerticalAlignment="Bottom"/>
+
+        <Rectangle x:Name="ColorPreview" Fill="#888888" Margin="10,0,174,10" Height="23" VerticalAlignment="Bottom"/>
+        <TextBox x:Name="ColorHexInput" KeyDown="OnKeyDownHandler" TextChanged="ColorHexInput_OnTextChanged"  Height="23" TextWrapping="Wrap" Text="#000000" Margin="10,0,174,9" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Transparent" BorderThickness="0" VerticalAlignment="Bottom" LostFocus="ColorHexInput_LostFocus" GotFocus="ColorHexInput_GotFocus" />
 
     </Grid>
 </Window>

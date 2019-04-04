@@ -211,11 +211,21 @@ namespace CostumeColour64
 
         void SetColorPreview()
         {
-            Color c = Color.FromArgb(255, (byte)red, (byte)green, (byte)blue);
+            Color c = Color.FromArgb(255, (byte) red, (byte) green, (byte) blue);
             SolidColorBrush brush = new SolidColorBrush(c);
             ColorPreview.Fill = brush;
 
             mario64Colors[mario64SelectedColor].button.Background = brush;
+
+            if (!ColorHexInput.IsFocused)
+            {
+                ColorHexInput.Text = ("#" + red.ToString("x2") + green.ToString("x2") + blue.ToString("x2")).ToUpper();
+            }
+
+            if ((red + green + blue) / 3 < 128)
+                ColorHexInput.Foreground = new SolidColorBrush(Colors.White);
+            else
+                ColorHexInput.Foreground = new SolidColorBrush(Colors.Black);
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
@@ -319,6 +329,65 @@ namespace CostumeColour64
             }
 
             return false;
+        }
+
+        private string colorHexBackup;
+
+        private void ColorHexInput_GotFocus(object sender, RoutedEventArgs e)
+        {
+            colorHexBackup = ColorHexInput.Text;
+        }
+
+        private void ColorHexInput_LostFocus(object sender, RoutedEventArgs e)
+        {
+            FinishColorHexInput();
+        }
+
+        private void OnKeyDownHandler(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                FinishColorHexInput();
+            }
+        }
+
+        void FinishColorHexInput(bool adjustTextbox = true)
+        {
+            string hex;
+            if (ColorHexInput.Text.StartsWith("#"))
+            {
+                hex = ColorHexInput.Text.Substring(1, ColorHexInput.Text.Length - 1);
+            }
+            else
+            {
+                hex = ColorHexInput.Text;
+            }
+
+            long output;
+            if (long.TryParse(hex, System.Globalization.NumberStyles.HexNumber, null, out output))
+            {
+                int zeroesToAdd = 6 - hex.Length;
+                string finalHex = hex;
+                for (int i = 0; i < zeroesToAdd; i++) finalHex += "0";
+                if(adjustTextbox) ColorHexInput.Text = "#" + finalHex.ToUpper();
+
+                string r = finalHex.Substring(1, 2);
+                string g = finalHex.Substring(2, 2);
+                string b = finalHex.Substring(4, 2);
+
+                RedValue.Value = int.Parse(finalHex.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
+                GreenValue.Value = int.Parse(finalHex.Substring(2, 2), System.Globalization.NumberStyles.HexNumber);
+                BlueValue.Value = int.Parse(finalHex.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
+            }
+            else
+            {
+                if (adjustTextbox) ColorHexInput.Text = colorHexBackup;
+            }
+        }
+
+        private void ColorHexInput_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            FinishColorHexInput(false);
         }
 
         //-------------------------------------------------------------------------------------------------------------------------------------------
