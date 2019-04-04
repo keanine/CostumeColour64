@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CostumeColour64"
         mc:Ignorable="d"
-        Title="Costume Colour 64 v0.2.0" Height="471" Width="480" ResizeMode="NoResize">
+        Title="Costume Colour 64 v0.3.0" Height="471" Width="480" ResizeMode="NoResize">
     <Grid>
         <DockPanel>
             <Menu DockPanel.Dock="Top">
@@ -13,7 +13,7 @@
                     <MenuItem x:Name="menu_LoadROM" Header="Load ROM..." Click="menu_LoadROM_Click"></MenuItem>
                     <MenuItem x:Name="menu_SaveROM" Header="Save ROM" Click="menu_SaveROM_Click"></MenuItem>
                     <Separator />
-                    <MenuItem x:Name="menu_LaunchROM" Header="Launch ROM" IsEnabled="False" Click="menu_LaunchROM_Click"></MenuItem>
+                    <MenuItem x:Name="menu_LaunchROM" Header="Launch ROM" Click="menu_LaunchROM_Click"></MenuItem>
                 </MenuItem>
                 <MenuItem Header="Collections" Height="20">
                     <MenuItem x:Name="menu_ImportGameshark" Header="Import Gameshark..." IsEnabled="False" Click="menu_ImportGameshark_Click"></MenuItem>
@@ -25,6 +25,7 @@
                 </MenuItem>
                 <MenuItem Header="Advanced" Height="20">
                     <MenuItem x:Name="menu_OverrideOffset" Header="Override Offset" IsEnabled="False" Click="menu_OverrideOffset_Click"></MenuItem>
+                    <MenuItem x:Name="menu_ChangeEmu" Header="Change Emulator Directory..." Click="Menu_ChangeEmu_OnClick_Click"></MenuItem>
                 </MenuItem>
             </Menu>
         </DockPanel>

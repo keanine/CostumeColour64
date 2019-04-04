@@ -1,0 +1,14 @@
+﻿<Window x:Class="CostumeColour64.ImportGameshark"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CostumeColour64"
+        mc:Ignorable="d"
+        Title="ImportGameshark" Height="350" Width="250">
+    <Grid>
+        <TextBox x:Name="CodeBox"  Margin="10,47,10,35" TextWrapping="Wrap" Text="" VerticalScrollBarVisibility="Auto" AcceptsReturn="True"/>
+        <Button x:Name="Import" Content="Import" Margin="10,0,10,10" Height="20" VerticalAlignment="Bottom" Click="Import_Click"/>
+        <TextBlock Margin="10,10,10,0" TextWrapping="Wrap" Text="Please make sure your colour code is formatted correctly." VerticalAlignment="Top"/>
+    </Grid>
+</Window>

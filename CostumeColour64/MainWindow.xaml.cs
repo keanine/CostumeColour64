@@ -36,8 +36,9 @@ namespace CostumeColour64
 
         public List<Mario64Color> mario64Colors = new List<Mario64Color>();
         public int mario64SelectedColor = 0;
-        List<byte> offsetByte = new List<byte>();
+        public List<byte> offsetByte = new List<byte>();
         string fileDirectory = "";
+        string emuDirectory = "";
         private int buttonCount = 0;
 
         public MainWindow()
@@ -46,6 +47,7 @@ namespace CostumeColour64
             bool success = BrowseForFile();
 
             if (!success) Application.Current.Shutdown();
+            emuDirectory = Properties.Settings.Default.EmuDirectory;
         }
 
         void LoadHex()
@@ -301,6 +303,24 @@ namespace CostumeColour64
             }
         }
 
+        bool FindEmulator()
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = false;
+            dialog.Filter = "Emulator Executable (*.exe)|*.exe";
+            dialog.Title = "Select Emulator Executable";
+
+            if (dialog.ShowDialog() == true)
+            {
+                emuDirectory = dialog.FileName;
+                Properties.Settings.Default.EmuDirectory = emuDirectory;
+                Properties.Settings.Default.Save();
+                return true;
+            }
+
+            return false;
+        }
+
         //-------------------------------------------------------------------------------------------------------------------------------------------
         //-- MENU -----------------------------------------------------------------------------------------------------------------------------------
         //-------------------------------------------------------------------------------------------------------------------------------------------
@@ -321,12 +341,20 @@ namespace CostumeColour64
 
         private void menu_LaunchROM_Click(object sender, RoutedEventArgs e)
         {
+            if (!File.Exists(emuDirectory))
+            {
+                MessageBoxResult r = MessageBox.Show("Emulator could not be found, please locate it to use the Launch feature", "Warning", MessageBoxButton.OKCancel, MessageBoxImage.Exclamation, MessageBoxResult.OK);
+                if (r != MessageBoxResult.OK) return;
+                if (!FindEmulator()) return;
+            }
 
+            System.Diagnostics.Process.Start(emuDirectory, fileDirectory);
         }
 
         private void menu_ImportGameshark_Click(object sender, RoutedEventArgs e)
         {
-
+            ImportGameshark importGameshark = new ImportGameshark(this);
+            importGameshark.ShowDialog();
         }
 
         private void menu_LoadCollection_Click(object sender, RoutedEventArgs e)
@@ -359,7 +387,12 @@ namespace CostumeColour64
 
         private void menu_OverrideOffset_Click(object sender, RoutedEventArgs e)
         {
+            overrideOffset = true;
+        }
 
+        private void Menu_ChangeEmu_OnClick_Click(object sender, RoutedEventArgs e)
+        {
+            FindEmulator();
         }
     }
 }
